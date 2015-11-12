@@ -44,8 +44,14 @@ Rules
               "id":"unique name to be used in validation as placeholder for answer to this question",
               "required":"boolean, optional",
               "default":"default value for model", //optional
-              "formlyTemplateOptions": {}
-              "questions":[], //
+              "answers":[
+                {
+                  "label": "displayed",
+                  "value": "value to be populated to form model"
+                }
+              ],
+              "formlyTemplateOptions": {},
+              "questions":[], // Allowed only for types obsGroups
               "hide": [
                 {
                   "field":"id of question",
