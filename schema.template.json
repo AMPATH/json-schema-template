@@ -1,0 +1,96 @@
+/*
+Introduction
+This document outlines the rules for creating a valid schema.
+Each question will serve as a template to produce a valid angular formly field.
+
+Rules
+1. Every form has at least 1 page
+3. Every page has at least 1 section
+4. A question can contain other questions. However a group of questions exists only within a section. In other words,
+   you can not have a group with questions in different sections of the form.
+5. The questions array is ordered: questions will appear on the form in the order they are found in the questions array.
+6. Each type must be associated with a function to produce a formly field. This function takes a question and a model and populates the model.
+7. Optional "rendering" is used to specify the way an element is displayed on the form. [Rendering should be there for types that can have multiple 
+   rendering possibilities suchs 'obs']
+8. Optional "concept" is allowed for "obs" & "obsGroup" types only.
+9. A question can only be asked once on a common level of a particular branch. In other words, you can not ask, "Are you on ARVs?"
+   in more than one place on the form unless the question is nested within another question (and that question does not already ask the question).
+8. A question can be asked have multiple answers only if it is of an appropriate type, e.g. "group_repeating", "multi-checkbox"
+9. As a question may have multiple answers, the model should store answers as arrays, not as strings/numbers etc.
+10. Metadata specific to a question will be placed in the questionMetadata object of a question.
+    For example, each obs needs a concept and this would be placed in the questionMetadata object.
+11. Optional "formlyTemplateOptions" field allow the form developer to pass custom template options to formly if they want to. [These will be used instead
+    of formentry provided default whenever provided]
+*/
+
+{
+  "name":"",
+  "version":"",
+  "encounterType":"uuid",
+  "form":"uuid",
+  "processor":"ObsFormProcessor|EncounterFormProcessor|personAttributeFormProcessor|default",
+  "pages": [
+    {
+      "label":"Page Name",
+      "sections": [
+                {
+                  "label":"Section Name",
+                  "questions": [
+                    {
+                      "type":"obs | obsGroup | encounterType | encounterDatetime | encounterProvider | encounterLocation | personAttribute | obsDrug | conceptSearch | obsProblem | location-attribute",
+                      "rendering": "| select | text | date | number | multiCheckbox | radio | ui-select-extended | repeating",
+                      "concept":"", // but should be only allowable in types of "obs" or "obsGroup"
+                      "label":"Text to show to the user on the form",
+                      "id":"unique name to be used in validation as placeholder for answer to this question",
+                      "required":"boolean, optional",
+                      "default":"default value for model", //optional
+                      "formlyTemplateOptions": {}
+                      "questions":[], //
+                      "hide": [
+                        {
+                          "field":"id of question",
+                          "value": ["array of answers"]
+                        }
+                      ],
+                      "notifications":[ //This triggers an alert to the user based on the expression. Get's evaluated after user selects an answer
+                        {
+                          "js_expression":"",
+                          "message":""
+                        }
+                      ]
+                      "validators":[
+                        {
+                          "type": "date",
+                          "allowFutureDates": "true | false",
+                        },
+                        {
+                          "type": "js_expression",
+                          "failsWhenExpression": "javascript expression, functions:'isEmpty,arrayContains', variables:'ids, myValue'"
+                          "message": "error message shown when validation fails"
+                        },
+                        {
+                          "type":"conditionalRequired",
+                          "referenceQuestionId":"id of another form question",
+                          "referenceQuestionAnswers": ['answer1','answerN']
+                        },
+                        {
+                          "type":"conditionalAnswered",
+                          "message":"",
+                          "referenceQuestionId":"",
+                          "referenceQuestionAnswers":[]
+                        }
+                      ],
+                      "disableExpression": [
+                          {
+                            "disableWhenExpression": "same as js_expression"
+                          }
+                        ]
+                     }
+                   ]
+                 }
+
+
+           ]
+         }
+       ]
+}
