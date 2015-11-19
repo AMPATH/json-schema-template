@@ -40,22 +40,21 @@ Rules
           "questions": [
             {
                "type":"obs | obsGroup | encounterType | encounterDatetime | encounterProvider | encounterLocation | personAttribute | location-attribute",
-               "questionOptions": {
-               "concept":"", // but should be only allowable in types of obs or obsGroup
-               "rendering": "| select | text | date | number | multiCheckbox | radio | ui-select-extended | repeating | group",
-               "answers":"| obsDrug | conceptSearch | obsProblem" | [
-                  {
-                     "label": "displayed",
-                     "value": "value to be populated to form model"
-                  }
-               ],  
-               "formlyTemplateOptions": {}
-              }
               "label":"Text to show to the user on the form",
               "id":"unique name to be used in validation as placeholder for answer to this question",
-              "required":"boolean, optional",
-              "default":"default value for model", //optional
-              "questions":[], // Allowed only for types obsGroups
+              "questionOptions": {
+                  "concept":"", // This makes sense only in types of obs or obsGroup
+                  "rendering": "| select | text | date | number | multiCheckbox | radio | ui-select-extended | repeating | group",
+                  "answers":"| obsDrug | conceptSearch | obsProblem" | [
+                     {
+                        "label": "displayed",
+                        "value": "value to be populated to form model"
+                     }
+                  ],
+                  "required":"boolean, optional",
+                  "default":"default value for model", 
+              },
+              "questions":[], // Allowed only for types obsGroups (at least for initially)
               "hide": [
                 {
                   "field":"id of question",
