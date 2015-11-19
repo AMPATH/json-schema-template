@@ -21,6 +21,8 @@ Rules
     For example, each obs needs a concept and this would be placed in the questionMetadata object.
 11. Optional "formlyTemplateOptions" field in "questionOptions" allow the form developer to pass custom template options to formly if they want to. [These will be used instead
     of formentry provided default whenever provided]
+12. "answers" may a string on an array depending on the question. For obs of type drug & problems the field is used to indicate
+    and let the handler deal with how to fetch/represent them.
 */
 
 {
@@ -41,8 +43,7 @@ Rules
                "questionOptions": {
                "concept":"", // but should be only allowable in types of obs or obsGroup
                "rendering": "| select | text | date | number | multiCheckbox | radio | ui-select-extended | repeating | group",
-               "answerList":"| obsDrug | conceptSearch | obsProblem ", //ignore answers if provided
-               "answers":[
+               "answers":"| obsDrug | conceptSearch | obsProblem" | [
                   {
                      "label": "displayed",
                      "value": "value to be populated to form model"
